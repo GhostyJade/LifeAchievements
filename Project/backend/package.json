@@ -12,7 +12,12 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "bcrypt": "^4.0.1",
+    "dotenv": "^8.2.0",
+    "helmet": "^3.21.3",
+    "jsonwebtoken": "^8.5.1",
     "lowdb": "^1.0.0",
+    "morgan": "^1.9.1",
     "nodemon": "^2.0.2"
   }
 }
