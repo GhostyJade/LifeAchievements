@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
+const cors = require('cors')
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const helmet = require('helmet')
@@ -18,6 +19,7 @@ const port = 8080
 app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
+//app.use(cors()) TODO fix
 
 db.defaults({ users: [] })
   .write()
