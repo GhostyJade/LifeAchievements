@@ -15,7 +15,7 @@ export default class Login extends Component {
 
     performLogin = (event) => {
         event.preventDefault()
-        fetch('http://localhost:8080/users/',{
+        fetch("http://localhost:8080/users/"+this.state.username,{
             method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.state)
         }).then(e=>console.log(e))
     }
