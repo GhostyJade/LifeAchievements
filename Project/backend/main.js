@@ -16,32 +16,32 @@ const app = express()
 const port = 8080
 
 //middleware setup
+app.use(cors())
 app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
-//app.use(cors()) TODO fix
 
 db.defaults({ users: [] })
-  .write()
+	.write()
 
-app.get('/',  (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World!'))
 
-const validateToken = async (req,res) => {
+const validateToken = async (req, res) => {
 	const token = req.headers['x-access-token']
 	if (!token) {
 		res.status(403).json(
 			{
-				error:"unauthorized"
+				error: "unauthorized"
 			}
 		)
 		return
 	}
 
-	jwt.verify(token,process.env.SECRET_KEY,(err, decoded)=> {
-		if(err) {
+	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+		if (err) {
 			res.status(403).json(
 				{
-					error:"unauthorized"
+					error: "unauthorized"
 				}
 			)
 			return
@@ -49,33 +49,27 @@ const validateToken = async (req,res) => {
 	})
 }
 
-app.get('/test',async (req,res) => {
-	validateToken(req,res)
+app.get('/test', async (req, res) => {
+	validateToken(req, res)
 
-	res.send({status:'ok'})
+	res.send({ status: 'ok' })
 })
 
 //registrate new user
 app.post('/users', async (req, res) => {
-    const { username, password } = req.body
-    if (db.get("users").find({username:username}).size().value() > 0) {
+	const { username, usrPassword } = req.body
+	if (db.get("users").find({ username: username }).size().value() > 0) {
 		res.status(400).send({
 			error: "user alredy exists"
 		})
 		return
-		// res.send({
-		// 	ok: false,
-		// 	data:{
-		// 		err: "user alredy exists"
-		// 	}
-		// })
 	}
 
-	const hashedPassword = await bcrypt.hash(password,8)
+	const password = await crypt.hash(usrPassword, 8)
 
 	const newUser = {
 		username,
-		hashedPassword
+		password
 	}
 
 	db.get('users').push(newUser).write()
@@ -85,14 +79,18 @@ app.post('/users', async (req, res) => {
 
 //login existing user
 app.post('/users/:username', async (req, res) => {
-    const username = req.params.username
-    const password = req.body.password
+	const username = req.params.username
+	const password = req.body.password
 
-    const user = db.get('users').find({ username }).value()
-    const authenticated = await crypt.compare(password, user.password) //user.password is the hashedPassword
+	const user = db.get('users').find({ username }).value()
+	if (user) {
+		const authenticated = await crypt.compare(password, user.password)
 
-    const token = jwt.sign({ username }, process.env.SECRET_KEY, { expiresIn: 86400 })
-    res.send({ authenticated, token })
+		const token = jwt.sign({ username }, process.env.SECRET_KEY, { expiresIn: 86400 })
+		res.send({ authenticated, token })
+	} else {
+		res.send({ authenticated: false, error: "user doesn't exists." })
+	}
 })
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) })
