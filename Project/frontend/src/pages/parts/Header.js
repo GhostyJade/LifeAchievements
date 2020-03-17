@@ -2,16 +2,15 @@ import React, { Component } from 'react'
 
 export default class Header extends Component {
     render() {
-        // TODO add buger that display menu in mobile view
         return (
             <header>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="navbar-brand">
-                        <a className="navbar-item" href="#">
+                        <a className="navbar-item" href="/">
                             Life Achievements
                         </a>
 
-                        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarContainer">
+                        <a role="button" className="navbar-burger burger" href="" aria-label="menu" aria-expanded="false" data-target="navbarContainer">
                             <span aria-hidden="true"></span>
                             <span aria-hidden="true"></span>
                             <span aria-hidden="true"></span>
