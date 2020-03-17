@@ -10,6 +10,7 @@ const crypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const adapter = new FileSync('db.json')
+const shortid = require('shortid')
 const db = low(adapter)
 const app = express()
 
@@ -46,6 +47,7 @@ const validateToken = async (req, res) => {
 			)
 			return
 		}
+		console.warn(jwt.decode(token))
 	})
 }
 
@@ -57,7 +59,7 @@ app.get('/test', async (req, res) => {
 
 //registrate new user
 app.post('/users', async (req, res) => {
-	const { username, usrPassword } = req.body
+	const { username, usrPassword, name, surname, email } = req.body
 	if (db.get("users").find({ username: username }).size().value() > 0) {
 		res.status(400).send({
 			error: "user alredy exists"
@@ -68,13 +70,18 @@ app.post('/users', async (req, res) => {
 	const password = await crypt.hash(usrPassword, 8)
 
 	const newUser = {
+		name,
+		surname,
+		email,
 		username,
 		password
 	}
 
+	console.log(newUser)
+
 	db.get('users').push(newUser).write()
 
-	res.send(newUser)
+	res.send({ registered: true, data: { username } })
 })
 
 //login existing user
