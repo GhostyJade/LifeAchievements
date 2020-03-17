@@ -15,9 +15,13 @@ export default class Login extends Component {
 
     performLogin = (event) => {
         event.preventDefault()
-        fetch("http://localhost:8080/users/"+this.state.username,{
-            method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.state)
-        }).then(e=>console.log(e))
+        fetch("http://localhost:8080/users/" + this.state.username, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.state)
+        }).then(response => response.json()).then(data => {
+            if (data.authenticated) {
+               var retrievedData= { username: this.state.username, token: data.token }
+            }
+        })
     }
 
     handleUsernameChange = (e) => {
@@ -37,7 +41,7 @@ export default class Login extends Component {
                     <div className="columns is-vcentered">
                         <div className="column">
                             <figure className="image has-ratio is-4by3">
-                                <img src={placeholder} alt="Login placeholder image" />
+                                <img src={placeholder} alt="Login placeholder" />
                             </figure>
                         </div>
                         <div className="column">
@@ -56,7 +60,6 @@ export default class Login extends Component {
                                             <div className="control">
                                                 <input type="submit" className="button is-primary is-rounded" value="Log in" />
                                             </div>
-
                                         </div>
                                         <div className="field is-grouped is-grouped-centered">
                                             <div className="control">
@@ -64,6 +67,20 @@ export default class Login extends Component {
                                             </div>
                                         </div>
                                     </form>
+
+
+                                    <div className="field is-grouped is-grouped-centered">
+                                        <div className="control">
+                                            <button className="button is-rounded" disabled>
+                                                <span className="icon">
+                                                    <FontAwesomeIcon icon={['fab', 'google']} />
+                                                </span>
+                                                <span>
+                                                    Login with Google
+                                            </span>
+                                            </button>
+                                        </div>
+                                    </div>
 
                                     <div className="column">
                                         <div className="has-text-centered">
