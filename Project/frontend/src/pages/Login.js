@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Redirect } from 'react-router-dom'
 
 import placeholder from '../images/placeholder.png'
 
@@ -6,11 +7,13 @@ import Header from './parts/Header'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+const localStorage = window.localStorage
+
 export default class Login extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { username: "", password: "" }
+        this.state = { username: "", password: "", redirect: false }
     }
 
     performLogin = (event) => {
@@ -19,8 +22,14 @@ export default class Login extends Component {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.state)
         }).then(response => response.json()).then(data => {
             if (data.authenticated) {
-               var retrievedData= { username: this.state.username, token: data.token }
+                localStorage.setItem("username", this.state.username)
+                localStorage.setItem("token", data.token)
+                return true
             }
+            return false
+        }).then(result => {
+            if (result)
+                this.setState({ redirect: true })
         })
     }
 
@@ -33,9 +42,16 @@ export default class Login extends Component {
         this.setState({ password: e.target.value })
     }
 
+    redirectToData = () => {
+        if (this.state.redirect)
+            return <Redirect to="/dashboard" />
+        return <></>
+    }
+
     render() {
         return (
             <>
+                {this.redirectToData()}
                 <Header />
                 <div className="container">
                     <div className="columns is-vcentered">
