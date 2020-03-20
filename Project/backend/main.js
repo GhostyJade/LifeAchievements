@@ -100,4 +100,13 @@ app.post('/users/:username', async (req, res) => {
 	}
 })
 
+//new achievements
+app.post('/achievements/new', async (req, res) => {
+	const title = req.body.title
+	const username = req.body.username
+	const data = req.body.data
+
+	res.send('ok')
+})
+
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) })
