@@ -7,7 +7,7 @@ import Header from './parts/Header'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const localStorage = window.localStorage
+import { set } from '../utils/localstoragehelper'
 
 export default class Login extends Component {
 
@@ -16,20 +16,25 @@ export default class Login extends Component {
         this.state = { username: "", password: "", redirect: false }
     }
 
+    async redirect() {
+        await new Promise(resolve => this.setState({ redirect: true }, () => resolve()))
+    }
+
     performLogin = (event) => {
         event.preventDefault()
         fetch("http://localhost:8080/users/" + this.state.username, {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.state)
         }).then(response => response.json()).then(data => {
             if (data.authenticated) {
-                localStorage.setItem("username", this.state.username)
-                localStorage.setItem("token", data.token)
+                set("username", this.state.username)
+                set("token", data.token)
                 return true
             }
             return false
         }).then(result => {
-            if (result)
-                this.setState({ redirect: true })
+            if (result) {
+                this.redirect()
+            }
         })
     }
 
@@ -93,7 +98,7 @@ export default class Login extends Component {
                                                 </span>
                                                 <span>
                                                     Login with Google
-                                            </span>
+                                                </span>
                                             </button>
                                         </div>
                                     </div>
