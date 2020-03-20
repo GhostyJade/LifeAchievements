@@ -1,4 +1,4 @@
-![](https://github.com/GhostyJade/LifeAchievements/blob/master/Resources/logo/placeholder.png)
+![](https://github.com/GhostyJade/LifeAchievements/blob/master/Resources/logo/github-placeholder.png)
 
 ## Life Achievements
 Life achievement is a simple but powerful application that allow users to keep track of what they want to achieve.
