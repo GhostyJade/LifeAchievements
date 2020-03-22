@@ -14,7 +14,9 @@ const shortid = require('shortid')
 const db = low(adapter)
 const app = express()
 
-const validationFactory = require('./classes/validation_util')
+const validationFactory = require('./classes/utils/validation_util')
+const data_utils = require('./classes/utils/data_utils')
+const DataUtils = new data_utils(shortid, db)
 
 const port = 8080
 
@@ -27,18 +29,16 @@ app.use(express.json())
 db.defaults({ users: [], boards: [] })
 	.write()
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
 const validateToken = async (req, res) => {
 	const token = req.headers['x-access-token']
-	var errorCode = 0
+	var errorCode = 200
 	var status = true
-
+	
 	if (!token) {
 		errorCode = 403
 		status = false
 	}
-
+	
 	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
 		if (err) {
 			errorCode = 403
@@ -97,12 +97,15 @@ app.post('/users/:username', async (req, res) => {
 })
 
 //add new achievements
-app.post('/achievements/', async (req, res) => {
-	const title = req.body.title
-	const username = req.body.username
-	const data = req.body.data
-	console.log(title, username, data)
-	res.send('ok')
+app.post('/achievements', async (req, res) => {
+	const result = await validateToken(req, res)
+
+	if(result.status){
+		const {title, data} = req.body.achievement
+		const username = req.body.username
+		DataUtils.newAchievement(title, username, data)
+	}
+	res.send(result)
 })
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) })
