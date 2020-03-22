@@ -48,14 +48,16 @@ export default class Register extends Component {
     }
 
     checkData = () => {
-
         return true;
     }
 
     checkEmail = (e) => {
         const mail = e.target.value
-        if (emailValidator.validate(mail))
-            this.setState({ data: { [e.target.name]: mail }, errorstyles: { mail: false } })
+        if (emailValidator.validate(mail)) {
+            var oldData = this.state.data
+            oldData[e.target.name] = mail
+            this.setState({ data: oldData, errorstyles: { mail: false } })
+        }
         else
             this.setState({ errorstyles: { mail: true } })
     }
