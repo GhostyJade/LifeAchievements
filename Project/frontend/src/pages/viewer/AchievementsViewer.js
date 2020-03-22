@@ -1,37 +1,36 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import Achievement from './Achievement'
-
-import { Button, ListItem } from '@material-ui/core'
+import { ListItem, Fab, makeStyles } from '@material-ui/core'
+import { Add as AddIcon } from '@material-ui/icons'
 import AchievementsMaker from './AchievementsMaker'
 
-export default class AchievementsViewer extends Component {
+const useStyles = makeStyles(theme => ({
+    fabNew: {
+        position: "absolute",
+        bottom: theme.spacing(2),
+        right: theme.spacing(2)
+    }
+}))
 
-    constructor(props) {
-        super(props)
-        this.state = { open: false }
+export default function AchievementsViewer() {
+
+    const classes = useStyles()
+    const [open, setOpen] = React.useState(false)
+
+    const onClose = () => {
+        setOpen(false)
     }
 
-    handleNew = () => {
-        this.setState({ open: true })
-    }
+    return (
+        <>
 
-    setClose = () => {
-        this.setState({ open: false })
-    }
+            {open ? <AchievementsMaker onClose={onClose} /> : null}
+            <ListItem>
 
-    render() {
-        return (
-            <>
-                <Button onClick={this.handleNew}>
-                    New
-                </Button>
-                <AchievementsMaker open={this.state.open} onClose={()=>this.setClose()}/>
-                <ListItem>
-                    
-                </ListItem>
-            </>
-        )
-
-    }
+            </ListItem>
+            <Fab onClick={setOpen} className={classes.fabNew}>
+                <AddIcon />
+            </Fab>
+        </>
+    )
 }
