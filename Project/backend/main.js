@@ -14,6 +14,8 @@ const shortid = require('shortid')
 const db = low(adapter)
 const app = express()
 
+const validationFactory = require('./classes/validation_util')
+
 const port = 8080
 
 //middleware setup
@@ -22,39 +24,34 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
 
-db.defaults({ users: [] })
+db.defaults({ users: [], boards: [] })
 	.write()
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
 const validateToken = async (req, res) => {
 	const token = req.headers['x-access-token']
+	var errorCode = 0
+	var status = true
+
 	if (!token) {
-		res.status(403).json(
-			{
-				error: "unauthorized"
-			}
-		)
-		return
+		errorCode = 403
+		status = false
 	}
 
 	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
 		if (err) {
-			res.status(403).json(
-				{
-					error: "unauthorized"
-				}
-			)
-			return
+			errorCode = 403
+			status = false
 		}
-		console.warn(jwt.decode(token))
 	})
+	return validationFactory(status, errorCode)
 }
 
 app.get('/test', async (req, res) => {
-	validateToken(req, res)
-
-	res.send({ status: 'ok' })
+	const result = await validateToken(req, res)
+	console.log(result)
+	res.send(result)
 })
 
 //registrate new user
@@ -70,14 +67,13 @@ app.post('/users', async (req, res) => {
 	const password = await crypt.hash(usrPassword, 8)
 
 	const newUser = {
+		"id": shortid.generate(),
 		name,
 		surname,
 		email,
 		username,
 		password
 	}
-
-	console.log(newUser)
 
 	db.get('users').push(newUser).write()
 
@@ -100,12 +96,12 @@ app.post('/users/:username', async (req, res) => {
 	}
 })
 
-//new achievements
-app.post('/achievements/new', async (req, res) => {
+//add new achievements
+app.post('/achievements/', async (req, res) => {
 	const title = req.body.title
 	const username = req.body.username
 	const data = req.body.data
-
+	console.log(title, username, data)
 	res.send('ok')
 })
 
