@@ -13,7 +13,8 @@ const generateResultObject = (status, errorCode = 200) => {
         error: {
             code: errorCode,
             message: getErrorMessageFromCode(errorCode)
-        }
+        },
+        board: null
     }
 }
 
