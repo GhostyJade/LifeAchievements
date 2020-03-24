@@ -127,4 +127,13 @@ app.post('/boards/:username', async (req, res) => {
 	res.send(result)
 })
 
+app.delete('/boards/:username/:boardid', async (req, res) => {
+	let result = await validateToken(req, res)
+	if (result.status) {
+		const { username, boardid } = req.params
+		result.board = DataUtils.deleteBoard(username,boardid)
+	}
+	res.send(result)
+})
+
 app.listen(port, () => { console.log(`Life achievement server listening on port ${port}!`) })

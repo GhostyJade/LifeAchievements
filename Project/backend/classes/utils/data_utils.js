@@ -25,6 +25,15 @@ class DataUtils {
         return { status: true, result: "got boards", boards }
     }
 
+    deleteBoard = (username, boardId) => {
+        const board = this.db.get('boards').remove({ id: boardId }).write()
+        this.db.get('users').find({ username }).get('boards').remove({ id: boardId }).write() //this return a value
+        let id = 0
+        if (board)
+            id = board[0].id
+        return { deleted: true, id }
+    }
+
 
     newAchievement = (username, title, data, boardid = 0) => {
         const user = this.db.get('users').find({ username }).value()

@@ -3,9 +3,12 @@ import { Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, makeSty
 import {
     Menu as MenuIcon,
     Dashboard as DashboardIcon,
-    Add as AddIcon
+    Add as AddIcon,
+    DeleteForever as DeleteIcon
 } from '@material-ui/icons'
 import { CallToAction as CallToActionIcon } from '@material-ui/icons' //TODO placeholder, change me plz
+
+import { get } from '../../utils/localstoragehelper'
 
 const useStyles = makeStyles({
     list: {
@@ -25,12 +28,32 @@ export default function LeftSideBar(props) {
         setState(open)
     }
 
+    const deleteBoard = (e) => {
+        e.stopPropagation()
+        const username = get('username')
+        const boardId = e.currentTarget.id
+        fetch(`http://localhost:8080/boards/${username}/${boardId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json', //IS THIS NEEDED? (i mean, there's no body)
+                'x-access-token': get('token')
+            }
+        }).then(response => response.json()).then(result => {
+            if (result.status) {
+                if (result.board.deleted) {
+                    props.updateBoards(boardId)
+                }
+            }//TODO handle, again, exceptions
+        })
+    }
+
     const boardList = () => {
         if (props.boards !== undefined)
             return props.boards.map((board, index) => (
-                <ListItem button key={board.id}>
+                <ListItem onClick={() => console.log("w")} button key={board.id}>
                     <ListItemIcon><CallToActionIcon /></ListItemIcon>
                     <ListItemText>{board.name}</ListItemText>
+                    <IconButton id={board.id} onClick={deleteBoard}><DeleteIcon /></IconButton>
                 </ListItem>
             ))
     }

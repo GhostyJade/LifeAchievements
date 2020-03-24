@@ -23,6 +23,12 @@ export default function AchievementsViewer() {
     const [boardMakerVisible, setBoardMakerVisible] = React.useState(false)
     const [boards, setBoards] = React.useState({ list: [] })
 
+    function deleteBoard(id) {
+        const filteredBoards = boards.list.filter(board => board.id !== id)
+        console.log(filteredBoards)
+        setBoards({ list: filteredBoards })
+    }
+
     const onClose = () => {
         setOpen(false)
     }
@@ -37,7 +43,7 @@ export default function AchievementsViewer() {
             method: 'POST',
             headers: {
                 'x-access-token': get('token'),
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json' //IS THIS NEEDED? (i mean, there's no body)
             },
         }).then(response => response.json()).then(result => {
             if (result.status) {
@@ -55,9 +61,11 @@ export default function AchievementsViewer() {
         }
     })
 
+
+
     return (
         <>
-            <LeftSideBar boards={boards.list} makerAction={setBoardMakerVisible} />
+            <LeftSideBar boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
             {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
             {open ? <AchievementsMaker onClose={onClose} /> : null}
             <Fab onClick={setOpen} className={classes.fabNew}>
