@@ -33,12 +33,12 @@ const validateToken = async (req, res) => {
 	const token = req.headers['x-access-token']
 	var errorCode = 200
 	var status = true
-	
+
 	if (!token) {
 		errorCode = 403
 		status = false
 	}
-	
+
 	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
 		if (err) {
 			errorCode = 403
@@ -47,12 +47,6 @@ const validateToken = async (req, res) => {
 	})
 	return validationFactory(status, errorCode)
 }
-
-app.get('/test', async (req, res) => {
-	const result = await validateToken(req, res)
-	console.log(result)
-	res.send(result)
-})
 
 //registrate new user
 app.post('/users', async (req, res) => {
@@ -72,7 +66,8 @@ app.post('/users', async (req, res) => {
 		surname,
 		email,
 		username,
-		password
+		password,
+		boards: []
 	}
 
 	db.get('users').push(newUser).write()
@@ -100,12 +95,25 @@ app.post('/users/:username', async (req, res) => {
 app.post('/achievements', async (req, res) => {
 	const result = await validateToken(req, res)
 
-	if(result.status){
-		const {title, data} = req.body.achievement
+	if (result.status) {
+		const { title, data } = req.body.achievement
 		const username = req.body.username
-		DataUtils.newAchievement(title, username, data)
+		DataUtils.newAchievement(username, title, data)
 	}
+	//TODO handle exception
 	res.send(result)
 })
 
-app.listen(port, () => { console.log(`Example app listening on port ${port}!`) })
+app.post('/boards', async (req, res) => {
+	let result = await validateToken(req, res)
+
+	if (result.status) {
+		const { username, name } = req.body
+		const newBoardResult = DataUtils.newBoard(username, name)
+		result.board = newBoardResult
+	}
+	//TODO handle exception, again
+	res.send(result)
+})
+
+app.listen(port, () => { console.log(`Life achievement server listening on port ${port}!`) })
