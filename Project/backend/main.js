@@ -104,6 +104,7 @@ app.post('/achievements', async (req, res) => {
 	res.send(result)
 })
 
+//add new board to the user
 app.post('/boards', async (req, res) => {
 	let result = await validateToken(req, res)
 
@@ -113,6 +114,16 @@ app.post('/boards', async (req, res) => {
 		result.board = newBoardResult
 	}
 	//TODO handle exception, again
+	res.send(result)
+})
+
+//get all user boards
+app.post('/boards/:username', async (req, res) => {
+	let result = await validateToken(req, res)
+	if (result.status) {
+		const { username } = req.params
+		result.board = DataUtils.getAllBoards(username)
+	}
 	res.send(result)
 })
 

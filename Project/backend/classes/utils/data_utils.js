@@ -21,7 +21,8 @@ class DataUtils {
     }
 
     getAllBoards = (username) => {
-        const boardList = this.db.get()
+        const boards = this.db.get('users').find({ username }).get('boards').value()
+        return { status: true, result: "got boards", boards }
     }
 
 
