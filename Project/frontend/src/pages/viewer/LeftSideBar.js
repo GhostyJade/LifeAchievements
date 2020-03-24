@@ -28,7 +28,7 @@ export default function LeftSideBar(props) {
     const boardList = () => {
         if (props.boards !== undefined)
             return props.boards.map((board, index) => (
-                <ListItem button key={board.name}>
+                <ListItem button key={board.id}>
                     <ListItemIcon><CallToActionIcon /></ListItemIcon>
                     <ListItemText>{board.name}</ListItemText>
                 </ListItem>
