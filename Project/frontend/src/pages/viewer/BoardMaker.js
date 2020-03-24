@@ -49,7 +49,7 @@ export default function BoardMaker(props) {
                         props.addData(response.board.data)
                         handleClose()
                     }
-                }
+                }//TODO handle errors
             })
         }
     }
