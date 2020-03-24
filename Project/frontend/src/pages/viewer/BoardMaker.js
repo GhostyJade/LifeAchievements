@@ -1,15 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { get } from '../../utils/localstoragehelper'
-import { AppBar,DialogContent, TextField, Dialog, Toolbar, IconButton, Typography, DialogActions, Button, Grid, FormControl } from '@material-ui/core'
+import { AppBar, DialogContent, TextField, Dialog, Toolbar, IconButton, Typography, DialogActions, Button, Grid, FormControl, InputLabel } from '@material-ui/core'
 import { Close as CloseIcon } from '@material-ui/icons'
 
+const useStyles = makeStyles((theme) => {
+    createStyles({
+        appBar: {
+            position: 'relative',
+        },
+        title: {
+            marginLeft: theme.spacing(2),
+            flex: 1,
+        },
+    })
+})
+
 export default function BoardMaker(props) {
-    const [open, setOpen] = React.useState(true)
+    const classes = useStyles()
+
     const [board, setBoard] = React.useState({ name: '' })
 
     const onBoardNameChange = (e) => {
         setBoard({ name: e.target.value })
+    }
+
+    const handleClose = () => {
+        props.makerAction(false)
     }
 
     const handleNewBoard = () => {
@@ -24,18 +42,26 @@ export default function BoardMaker(props) {
                     "username": get("username"),
                     "name": board.name
                 })
-            }).then(result => result.json()).then(e => console.log(e))
+            }).then(result => result.json()).then(response => {
+                console.log(response)
+                if (response.status) {
+                    if (response.board.status) {
+                        props.addData(response.board.data)
+                        handleClose()
+                    }
+                }
+            })
         }
     }
 
     return (
-        <Dialog open={open}>
-            <AppBar>
+        <Dialog open={true}>
+            <AppBar className={classes.appBar}>
                 <Toolbar>
-                    <IconButton>
+                    <IconButton onClick={handleClose} edge="start" color="inherit" aria-label="close">
                         <CloseIcon />
                     </IconButton>
-                    <Typography>
+                    <Typography variant="h6" className={classes.title}>
                         New board
                     </Typography>
                 </Toolbar>
@@ -44,14 +70,14 @@ export default function BoardMaker(props) {
                 <Grid container direction="row" justify="center" alignItems="center">
                     <Grid item>
                         <FormControl>
-                            <TextField id="board-name" onChange={onBoardNameChange} />
+                            <TextField label="Board name" id="board-name" onChange={onBoardNameChange} />
                         </FormControl>
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button>Cancel</Button>
-                <Button>Create</Button>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleNewBoard}>Create</Button>
             </DialogActions>
         </Dialog>
     )
