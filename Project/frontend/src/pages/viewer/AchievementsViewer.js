@@ -19,9 +19,14 @@ export default function AchievementsViewer() {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
     const [boardMakerVisible, setBoardMakerVisible] = React.useState(false)
+    const [boards, setBoards] = React.useState({ list: [] })
 
     const onClose = () => {
         setOpen(false)
+    }
+
+    const addBoard = (board) => {
+        setBoards({ list: [...boards.list, board] })
     }
 
     const getBoardsList = () => { //TODO
@@ -30,8 +35,8 @@ export default function AchievementsViewer() {
 
     return (
         <>
-            <LeftSideBar makerAction={setBoardMakerVisible} />
-            {boardMakerVisible ? <BoardMaker /> : null}
+            <LeftSideBar boards={boards.list} makerAction={setBoardMakerVisible} />
+            {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
             {open ? <AchievementsMaker onClose={onClose} /> : null}
             <Fab onClick={setOpen} className={classes.fabNew}>
                 <AddIcon />
