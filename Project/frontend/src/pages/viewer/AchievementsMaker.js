@@ -102,7 +102,5 @@ export default function AchievementsMaker(props) {
                 </Button>
             </DialogActions>
         </Dialog>
-
-
     )
 }
