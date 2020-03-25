@@ -7,7 +7,7 @@ import { DeleteForever as DeleteIcon } from '@material-ui/icons'
 export default function Achievement(props) {
     console.log(props.data)
     return (
-        <Card>
+        <Card variant="outlined">
             <IconButton><DeleteIcon /></IconButton>
         </Card>
     )

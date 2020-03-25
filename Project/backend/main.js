@@ -127,15 +127,17 @@ app.post('/boards/:username', async (req, res) => {
 	res.send(result)
 })
 
+//get board data
 app.get('/boards/:username/:boardid', async (req, res) => {
 	let result = await validateToken(req, res)
 	if (result.status) {
-		const { username, boardid } = req.params
+		const { boardid } = req.params
 		result.achievements = DataUtils.getAllAchievementFromBoard(boardid)
 	}
 	res.send(result)
 })
 
+//delete the specified board
 app.delete('/boards/:username/:boardid', async (req, res) => {
 	let result = await validateToken(req, res)
 	if (result.status) {

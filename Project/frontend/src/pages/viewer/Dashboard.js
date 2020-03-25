@@ -65,7 +65,7 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        if (!fetched) {
+        if (!fetched) { //TODO fixme
             getBoardsList()
             setFetched(true)
         }

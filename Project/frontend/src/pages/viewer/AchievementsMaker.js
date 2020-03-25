@@ -48,7 +48,16 @@ export default function AchievementsMaker(props) {
                     "boardId": props.boardId,
                     "achievement": { title: achievementData.title, data: achievementData.data }
                 })
-            }).then(result => result.json()).then(e => console.log(e))
+            }).then(result => result.json())
+                .then(result => {
+                    if (result.status) {
+                        if (result.achievements.created) {
+                            //props.newAchievementCallback(result.achievements.achievement)
+                            props.onClose()
+                        }
+                    }//and again,
+                    // TODO, handle excptions
+                })
         }
     }
 
