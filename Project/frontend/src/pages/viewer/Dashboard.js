@@ -6,6 +6,7 @@ import { Add as AddIcon } from '@material-ui/icons'
 import AchievementsMaker from './AchievementsMaker'
 import LeftSideBar from './LeftSideBar'
 import BoardMaker from './BoardMaker'
+import BoardVisualizer from './BoardVisualizer'
 
 const useStyles = makeStyles(theme => ({
     fabNew: {
@@ -15,18 +16,23 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function AchievementsViewer() {
+export default function Dashboard() {
 
     const classes = useStyles()
     const [fetched, setFetched] = React.useState(false)
     const [open, setOpen] = React.useState(false)
     const [boardMakerVisible, setBoardMakerVisible] = React.useState(false)
     const [boards, setBoards] = React.useState({ list: [] })
+    const [selectedBoard, setSelectedBoard] = React.useState({ boardId: null })
 
     function deleteBoard(id) {
         const filteredBoards = boards.list.filter(board => board.id !== id)
-        console.log(filteredBoards)
         setBoards({ list: filteredBoards })
+    }
+
+    const openAchievementCreator = () => {
+        if (selectedBoard.boardId != null)
+            setOpen(true)
     }
 
     const onClose = () => {
@@ -54,6 +60,10 @@ export default function AchievementsViewer() {
         })
     }
 
+    function updateSelectedBoard(id) {
+        setSelectedBoard({ boardId: id })
+    }
+
     useEffect(() => {
         if (!fetched) {
             getBoardsList()
@@ -61,14 +71,13 @@ export default function AchievementsViewer() {
         }
     })
 
-
-
     return (
         <>
-            <LeftSideBar boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
+            <LeftSideBar selectionAction={updateSelectedBoard} boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
+            {selectedBoard.boardId !== null ? <BoardVisualizer selected={selectedBoard} /> : null}
             {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
-            {open ? <AchievementsMaker onClose={onClose} /> : null}
-            <Fab onClick={setOpen} className={classes.fabNew}>
+            {open ? <AchievementsMaker boardId={selectedBoard.boardId} onClose={onClose} /> : null}
+            <Fab onClick={openAchievementCreator} className={classes.fabNew}>
                 <AddIcon />
             </Fab>
         </>

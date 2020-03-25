@@ -1,9 +1,14 @@
 import React from 'react'
 
-import {Button, Typography} from '@material-ui/core'
+import { Button, Typography, Card, IconButton } from '@material-ui/core'
 
-export default function Achievement() {
+import { DeleteForever as DeleteIcon } from '@material-ui/icons'
+
+export default function Achievement(props) {
+    console.log(props.data)
     return (
-        <Typography>Ciao</Typography>
+        <Card>
+            <IconButton><DeleteIcon /></IconButton>
+        </Card>
     )
 }

@@ -12,7 +12,7 @@ import { get } from '../../utils/localstoragehelper'
 
 const useStyles = makeStyles({
     list: {
-        width: 250
+        width: 300
     }
 })
 
@@ -47,10 +47,14 @@ export default function LeftSideBar(props) {
         })
     }
 
+    const handleSelectAchievementBoard = (id) => {
+        props.selectionAction(id)
+    }
+
     const boardList = () => {
         if (props.boards !== undefined)
             return props.boards.map((board, index) => (
-                <ListItem onClick={() => console.log("w")} button key={board.id}>
+                <ListItem onClick={() => handleSelectAchievementBoard(board.id)} button key={board.id}>
                     <ListItemIcon><CallToActionIcon /></ListItemIcon>
                     <ListItemText>{board.name}</ListItemText>
                     <IconButton id={board.id} onClick={deleteBoard}><DeleteIcon /></IconButton>

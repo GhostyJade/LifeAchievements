@@ -1,7 +1,7 @@
 "use strict"
 
 const Achievement = require('./Achievement')
-const Board = require('./Board')
+const Board = require('./Board') //TODO implement me plz, I'm useful :D
 
 class DataUtils {
     constructor(shortid, dbInstance) {
@@ -34,13 +34,17 @@ class DataUtils {
         return { deleted: true, id }
     }
 
+    getAllAchievementFromBoard = (boardId) => {
+        const data = this.db.get('boards').find({ id: boardId }).value()
+        return { status: true, data }
+    }
 
-    newAchievement = (username, title, data, boardid = 0) => {
-        const user = this.db.get('users').find({ username }).value()
-        console.log(user)
-        const boardColleciton = this.db.get('boards')
-        console.log(boardColleciton)
-        const achievement = new Achievement(this.shortid.generate(), title, data, null)
+    newAchievement = (boardId, title, data) => {
+        const boardCollection = this.db.get('boards').find({ id: boardId }).value()
+        if (boardCollection) { //? is this needed?
+            const achievement = new Achievement(this.shortid.generate(), title, data, null, null).toJson()
+            this.db.get('boards').find({ id: boardId }).get('achievements').push(achievement).write()
+        }
 
     }
 }

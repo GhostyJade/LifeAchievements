@@ -37,7 +37,7 @@ export default function AchievementsMaker(props) {
 
     const handleNewAchievement = () => {
         if (achievementData.name !== "" && achievementData.data !== "") {
-            fetch('http://localhost:8080/achievements/', {
+            fetch(`http://localhost:8080/achievements/`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': get("token"),
@@ -45,9 +45,10 @@ export default function AchievementsMaker(props) {
                 },
                 body: JSON.stringify({
                     "username": get("username"),
+                    "boardId": props.boardId,
                     "achievement": { title: achievementData.title, data: achievementData.data }
                 })
-            }).then(result => result.json()).then(e =>console.log(e))
+            }).then(result => result.json()).then(e => console.log(e))
         }
     }
 

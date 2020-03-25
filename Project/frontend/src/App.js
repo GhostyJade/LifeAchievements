@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import About from './pages/About'
-import AchievementsViewer from './pages/viewer/AchievementsViewer'
+import Dashboard from './pages/viewer/Dashboard'
 
 import "./style.scss"
 
@@ -30,7 +30,7 @@ function App() {
                     {isLoggedIn() ? <Redirect to="/dashboard" /> : <Login />}
                 </Route>
                 <Route path="/dashboard">
-                    {isLoggedIn() ? <AchievementsViewer /> : <Redirect to="/login" />}
+                    {isLoggedIn() ? <Dashboard /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/register">
                     <Register />

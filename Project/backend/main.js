@@ -39,7 +39,7 @@ const validateToken = async (req, res) => {
 		status = false
 	}
 
-	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => { //decoded contains {username}
 		if (err) {
 			errorCode = 403
 			status = false
@@ -93,12 +93,12 @@ app.post('/users/:username', async (req, res) => {
 
 //add new achievements
 app.post('/achievements', async (req, res) => {
-	const result = await validateToken(req, res)
+	let result = await validateToken(req, res)
 
 	if (result.status) {
 		const { title, data } = req.body.achievement
-		const username = req.body.username
-		DataUtils.newAchievement(username, title, data)
+		const { boardId } = req.body
+		result.achievements = DataUtils.newAchievement(boardId, title, data)
 	}
 	//TODO handle exception
 	res.send(result)
@@ -127,11 +127,20 @@ app.post('/boards/:username', async (req, res) => {
 	res.send(result)
 })
 
+app.get('/boards/:username/:boardid', async (req, res) => {
+	let result = await validateToken(req, res)
+	if (result.status) {
+		const { username, boardid } = req.params
+		result.achievements = DataUtils.getAllAchievementFromBoard(boardid)
+	}
+	res.send(result)
+})
+
 app.delete('/boards/:username/:boardid', async (req, res) => {
 	let result = await validateToken(req, res)
 	if (result.status) {
 		const { username, boardid } = req.params
-		result.board = DataUtils.deleteBoard(username,boardid)
+		result.board = DataUtils.deleteBoard(username, boardid)
 	}
 	res.send(result)
 })

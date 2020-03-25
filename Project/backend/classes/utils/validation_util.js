@@ -14,7 +14,8 @@ const generateResultObject = (status, errorCode = 200) => {
             code: errorCode,
             message: getErrorMessageFromCode(errorCode)
         },
-        board: null
+        board: null,
+        achievements: null
     }
 }
 
