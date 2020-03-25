@@ -3,12 +3,13 @@ import { get } from '../../utils/localstoragehelper'
 
 import Achievement from './Achievement'
 
-export default function BoardVisualizer(props) {
+export default function BoardVisualizer(props) { //is this achievement visualizer?
 
     let achievements = []
     useEffect(() => {
         const boardId = props.selected.boardId
         const username = get('username')
+        console.log(props.boardId)
         fetch(`http://localhost:8080/boards/${username}/${boardId}`, {
             method: 'GET',
             headers: {
@@ -21,7 +22,7 @@ export default function BoardVisualizer(props) {
                 }
             }//TODO handle every exception, again...i know
         })
-    }, [])
+    }, [props.selected.boardId])
     
     if (props.data)
         achievements = props.data.map((achievement, index) => {
