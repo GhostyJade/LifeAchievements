@@ -5,7 +5,6 @@ import Achievement from './Achievement'
 
 export default function BoardVisualizer(props) {
 
-    const [achievementsList, setAchievementsList] = React.useState(null)
     let achievements = []
     useEffect(() => {
         const boardId = props.selected.boardId
@@ -18,20 +17,20 @@ export default function BoardVisualizer(props) {
         }).then(response => response.json()).then(result => {
             if (result.status) {
                 if (result.achievements.status) {
-                    setAchievementsList(result.achievements.data.achievements)
+                    props.onDataChange(result.achievements.data.achievements)
                 }
             }//TODO handle every exception, again...i know
         })
     }, [])
-
-    if (achievementsList)
-        achievements = achievementsList.map((achievement, index) => {
+    
+    if (props.data)
+        achievements = props.data.map((achievement, index) => {
             return <Achievement key={achievement.id} data={achievement} />
         })
-    //{ achievements }
+    
     return (
         <>
-            {(achievementsList !== null) ? achievements : null}
+            {(props.data !== null) ? achievements : null}
         </>
     )
 }

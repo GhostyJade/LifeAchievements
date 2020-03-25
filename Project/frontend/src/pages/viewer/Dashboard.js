@@ -25,6 +25,14 @@ export default function Dashboard() {
     const [boards, setBoards] = React.useState({ list: [] })
     const [selectedBoard, setSelectedBoard] = React.useState({ boardId: null })
 
+    const [achievementsList, setAchievementsList] = React.useState(null)
+
+    const updateAchievementsList = (newAchievement) => {
+        const data = achievementsList
+        data.push(newAchievement)
+        setAchievementsList(data)
+    }
+
     function deleteBoard(id) {
         const filteredBoards = boards.list.filter(board => board.id !== id)
         setBoards({ list: filteredBoards })
@@ -74,9 +82,9 @@ export default function Dashboard() {
     return (
         <>
             <LeftSideBar selectionAction={updateSelectedBoard} boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
-            {selectedBoard.boardId !== null ? <BoardVisualizer selected={selectedBoard} /> : null}
+            {selectedBoard.boardId !== null ? <BoardVisualizer data={achievementsList} onDataChange={setAchievementsList} selected={selectedBoard} /> : null}
             {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
-            {open ? <AchievementsMaker boardId={selectedBoard.boardId} onClose={onClose} /> : null}
+            {open ? <AchievementsMaker onAchievementCreation={updateAchievementsList} boardId={selectedBoard.boardId} onClose={onClose} /> : null}
             <Fab onClick={openAchievementCreator} className={classes.fabNew}>
                 <AddIcon />
             </Fab>

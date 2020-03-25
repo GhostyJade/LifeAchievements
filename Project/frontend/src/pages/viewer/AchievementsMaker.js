@@ -52,7 +52,7 @@ export default function AchievementsMaker(props) {
                 .then(result => {
                     if (result.status) {
                         if (result.achievements.created) {
-                            //props.newAchievementCallback(result.achievements.achievement)
+                            props.onAchievementCreation(result.achievements.achievement)
                             props.onClose()
                         }
                     }//and again,
