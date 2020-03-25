@@ -9,7 +9,6 @@ export default function BoardVisualizer(props) { //is this achievement visualize
     useEffect(() => {
         const boardId = props.selected.boardId
         const username = get('username')
-        console.log(props.boardId)
         fetch(`http://localhost:8080/boards/${username}/${boardId}`, {
             method: 'GET',
             headers: {
