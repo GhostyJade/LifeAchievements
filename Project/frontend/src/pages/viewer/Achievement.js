@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 
 export default function Achievement(props) {
     //missing expireDate and priority fields
-    const classes = makeStyles()
+    const classes = useStyles()
     return (
         <Card className={classes.root} id={props.data.id} variant="outlined">
             <CardActions>
