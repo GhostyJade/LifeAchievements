@@ -3,10 +3,10 @@ import { Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, makeSty
 import {
     Menu as MenuIcon,
     Dashboard as DashboardIcon,
-    Add as AddIcon,
-    DeleteForever as DeleteIcon
+    Add as AddIcon
 } from '@material-ui/icons'
-import { CallToAction as CallToActionIcon } from '@material-ui/icons' //TODO placeholder, change me plz
+
+import Board from './Board'
 
 import { get } from '../../utils/localstoragehelper'
 
@@ -54,11 +54,7 @@ export default function LeftSideBar(props) {
     const boardList = () => {
         if (props.boards !== undefined)
             return props.boards.map((board, index) => (
-                <ListItem onClick={() => handleSelectAchievementBoard(board.id)} button key={board.id}>
-                    <ListItemIcon><CallToActionIcon /></ListItemIcon>
-                    <ListItemText>{board.name}</ListItemText>
-                    <IconButton id={board.id} onClick={deleteBoard}><DeleteIcon /></IconButton>
-                </ListItem>
+                <Board handleClick={() => handleSelectAchievementBoard(board.id)} boardData={board} onDeleteBoard={deleteBoard}/>
             ))
     }
 

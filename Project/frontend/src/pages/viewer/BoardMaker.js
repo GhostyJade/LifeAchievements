@@ -43,7 +43,6 @@ export default function BoardMaker(props) {
                     "name": board.name
                 })
             }).then(result => result.json()).then(response => {
-                console.log(response)
                 if (response.status) {
                     if (response.board.status) {
                         props.addData(response.board.data)
