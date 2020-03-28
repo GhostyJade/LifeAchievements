@@ -16,10 +16,6 @@ export default class Login extends Component {
         this.state = { username: "", password: "", redirect: false }
     }
 
-    async redirect() {
-        await new Promise(resolve => this.setState({ redirect: true }, () => resolve()))
-    }
-
     performLogin = (event) => {
         event.preventDefault()
         fetch("http://localhost:8080/users/" + this.state.username, {
@@ -33,7 +29,7 @@ export default class Login extends Component {
             return false
         }).then(result => {
             if (result) {
-                this.redirect()
+                this.setState({ redirect: true })
             }
         })
     }
@@ -47,16 +43,12 @@ export default class Login extends Component {
         this.setState({ password: e.target.value })
     }
 
-    redirectToData = () => {
-        if (this.state.redirect)
-            return <Redirect to="/dashboard" />
-        return <></>
-    }
-
     render() {
+        if (this.state.redirect) 
+            return <Redirect to="/dashboard" />
         return (
             <>
-                {this.redirectToData()}
+
                 <Header />
                 <div className="container">
                     <div className="columns is-vcentered">

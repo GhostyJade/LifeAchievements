@@ -8,37 +8,29 @@ import Dashboard from './pages/viewer/Dashboard'
 
 import "./style.scss"
 
-import { get } from './utils/storagehelper'
-
 import {
     BrowserRouter as Router,
     Switch,
     Route, Redirect
 } from "react-router-dom"
 
-function isLoggedIn() {
-    if (get("username") && get("token"))
-        return true
-    return false
-}
-
 function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/login">
-                    {isLoggedIn() ? <Redirect to="/dashboard" /> : <Login />}
+                <Route exact path="/login">
+                    <Login />
                 </Route>
-                <Route path="/dashboard">
-                    {isLoggedIn() ? <Dashboard /> : <Redirect to="/login" />}
+                <Route exact path="/dashboard">
+                    <Dashboard />
                 </Route>
-                <Route path="/register">
+                <Route exact path="/register">
                     <Register />
                 </Route>
-                <Route path="/about">
+                <Route exact path="/about">
                     <About />
                 </Route>
-                <Route path="/">
+                <Route exact path="/">
                     <Home />
                 </Route>
             </Switch>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { clear } from '../../utils/storagehelper'
+
 export default class Header extends Component {
     render() {
         return (
@@ -34,7 +36,7 @@ export default class Header extends Component {
                                     <a href="/register" className="button is-primary">
                                         <strong>Sign up</strong>
                                     </a>
-                                    <a href="/login" className="button is-light">
+                                    <a href="/login" onClick={clear()} className="button is-light">
                                         Log in
                                     </a>
                                 </div>
