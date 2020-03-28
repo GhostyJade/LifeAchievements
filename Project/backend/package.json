@@ -11,14 +11,14 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "shortid": "^2.2.15"
-  },
-  "devDependencies": {
+    "shortid": "^2.2.15",
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
-    "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
-    "lowdb": "^1.0.0",
+    "lowdb": "^1.0.0"
+  },
+  "devDependencies": {
+    "helmet": "^3.22.0",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.2"
   }
