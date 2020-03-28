@@ -16,7 +16,7 @@
   "devDependencies": {
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
-    "helmet": "^3.21.3",
+    "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "lowdb": "^1.0.0",
     "morgan": "^1.9.1",
