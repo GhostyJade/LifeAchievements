@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { get } from '../../utils/localstoragehelper'
+import { get } from '../../utils/sessionstoragehelper'
 
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, AppBar, Toolbar, Dialog, IconButton, Typography, TextField, DialogActions, Input, DialogContent, FormControl, InputLabel, Slide } from '@material-ui/core'

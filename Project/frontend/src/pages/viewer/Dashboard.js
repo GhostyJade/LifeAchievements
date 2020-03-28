@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { get } from '../../utils/localstoragehelper'
+import { get } from '../../utils/sessionstoragehelper'
 import { Fab, makeStyles } from '@material-ui/core'
 import { Add as AddIcon } from '@material-ui/icons'
 import AchievementsMaker from './AchievementsMaker'
@@ -73,11 +73,8 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        if (!fetched) { //TODO fixme
-            getBoardsList()
-            setFetched(true)
-        }
-    })
+        getBoardsList()
+    }, [])
 
     return (
         <>
