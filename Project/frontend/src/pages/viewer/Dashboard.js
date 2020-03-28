@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { get } from '../../utils/storagehelper'
+import { Redirect } from "react-router-dom"
+
+import { get, clear } from '../../utils/storagehelper'
 import { Fab, makeStyles } from '@material-ui/core'
 import { Add as AddIcon } from '@material-ui/icons'
 import AchievementsMaker from './AchievementsMaker'
@@ -19,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
 
     const classes = useStyles()
-    const [fetched, setFetched] = React.useState(false)
     const [open, setOpen] = React.useState(false)
     const [boardMakerVisible, setBoardMakerVisible] = React.useState(false)
     const [boards, setBoards] = React.useState({ list: [] })
@@ -76,15 +77,19 @@ export default function Dashboard() {
         getBoardsList()
     }, [])
 
-    return (
-        <>
-            <LeftSideBar selectionAction={updateSelectedBoard} boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
-            {selectedBoard.boardId !== null ? <BoardVisualizer data={achievementsList} onDataChange={setAchievementsList} selected={selectedBoard} /> : null}
-            {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
-            {open ? <AchievementsMaker onAchievementCreation={updateAchievementsList} boardId={selectedBoard.boardId} onClose={onClose} /> : null}
-            <Fab onClick={openAchievementCreator} className={classes.fabNew}>
-                <AddIcon />
-            </Fab>
-        </>
-    )
+    if (!get("username") || !get("token")) {
+        clear()
+        return <Redirect to="/login" />
+    } else
+        return (
+            <>
+                <LeftSideBar selectionAction={updateSelectedBoard} boards={boards.list} updateBoards={deleteBoard} makerAction={setBoardMakerVisible} />
+                {selectedBoard.boardId !== null ? <BoardVisualizer data={achievementsList} onDataChange={setAchievementsList} selected={selectedBoard} /> : null}
+                {boardMakerVisible ? <BoardMaker addData={addBoard} makerAction={setBoardMakerVisible} /> : null}
+                {open ? <AchievementsMaker onAchievementCreation={updateAchievementsList} boardId={selectedBoard.boardId} onClose={onClose} /> : null}
+                <Fab onClick={openAchievementCreator} className={classes.fabNew}>
+                    <AddIcon />
+                </Fab>
+            </>
+        )
 }
