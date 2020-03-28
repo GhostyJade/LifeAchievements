@@ -54,7 +54,7 @@ export default function LeftSideBar(props) {
     const boardList = () => {
         if (props.boards !== undefined)
             return props.boards.map((board, index) => (
-                <Board handleClick={() => handleSelectAchievementBoard(board.id)} boardData={board} onDeleteBoard={deleteBoard}/>
+                <Board key={board.id} handleClick={() => handleSelectAchievementBoard(board.id)} boardData={board} onDeleteBoard={deleteBoard}/>
             ))
     }
 
@@ -68,7 +68,7 @@ export default function LeftSideBar(props) {
             <IconButton onClick={toggleDrawer(true)}><MenuIcon /></IconButton>
             <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
                 <List className={classes.list}>
-                    <ListItem>
+                    <ListItem key="topElement">
                         <ListItemIcon><DashboardIcon /></ListItemIcon>
                         <ListItemText>Boards</ListItemText>
                         <ListItemIcon onClick={newBoard}><IconButton><AddIcon /></IconButton></ListItemIcon>

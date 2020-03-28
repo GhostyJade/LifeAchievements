@@ -9,8 +9,9 @@ import { CallToAction as CallToActionIcon } from '@material-ui/icons' //TODO pla
 
 export default function Board(props) {
 
+    console.log(props)
     return (
-        <ListItem onClick={props.handleClick} button key={props.boardData.id}>
+        <ListItem onClick={props.handleClick} button>
             <ListItemIcon><CallToActionIcon /></ListItemIcon>
             <ListItemText>{props.boardData.name}</ListItemText>
             <IconButton id={props.boardData.id} onClick={props.onDeleteBoard}><DeleteIcon /></IconButton>
