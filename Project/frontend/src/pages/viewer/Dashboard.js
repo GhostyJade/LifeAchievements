@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { get } from '../../utils/sessionstoragehelper'
+import { get } from '../../utils/storagehelper'
 import { Fab, makeStyles } from '@material-ui/core'
 import { Add as AddIcon } from '@material-ui/icons'
 import AchievementsMaker from './AchievementsMaker'

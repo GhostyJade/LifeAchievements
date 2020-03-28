@@ -8,7 +8,7 @@ import {
 
 import Board from './Board'
 
-import { get } from '../../utils/sessionstoragehelper'
+import { get } from '../../utils/storagehelper'
 
 const useStyles = makeStyles({
     list: {

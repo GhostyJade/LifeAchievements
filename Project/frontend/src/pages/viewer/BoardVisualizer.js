@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { get } from '../../utils/sessionstoragehelper'
+import { get } from '../../utils/storagehelper'
 
 import Achievement from './Achievement'
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { get } from '../../utils/sessionstoragehelper'
+import { get } from '../../utils/storagehelper'
 import { AppBar, DialogContent, TextField, Dialog, Toolbar, IconButton, Typography, DialogActions, Button, Grid, FormControl, InputLabel } from '@material-ui/core'
 import { Close as CloseIcon } from '@material-ui/icons'
 

@@ -1,4 +1,4 @@
-const storage = window.sessionStorage
+const storage = window.localStorage
 
 export function set(key, value) {
     storage.setItem(key, value)

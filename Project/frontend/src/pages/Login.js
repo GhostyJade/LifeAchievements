@@ -7,7 +7,7 @@ import Header from './parts/Header'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { set } from '../utils/sessionstoragehelper'
+import { set } from '../utils/storagehelper'
 
 export default class Login extends Component {
 

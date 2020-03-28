@@ -8,7 +8,7 @@ import Dashboard from './pages/viewer/Dashboard'
 
 import "./style.scss"
 
-import { get } from './utils/sessionstoragehelper'
+import { get } from './utils/storagehelper'
 
 import {
     BrowserRouter as Router,
