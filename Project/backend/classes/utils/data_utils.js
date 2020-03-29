@@ -44,7 +44,7 @@ class DataUtils {
         if (boardCollection) { //? is this needed?
             const achievement = new Achievement(this.shortid.generate(), title, data, null, null).toJson()
             this.db.get('boards').find({ id: boardId }).get('achievements').push(achievement).write()
-            return { created: true, "achievement":achievement }
+            return { created: true, "achievement": achievement }
         }
     }
 }

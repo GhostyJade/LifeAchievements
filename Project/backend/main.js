@@ -1,22 +1,32 @@
 require('dotenv').config()
 
+// middleware requirements
 const express = require('express')
 const cors = require('cors')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const crypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
-const adapter = new FileSync('db.json')
-const shortid = require('shortid')
-const db = low(adapter)
 const app = express()
 
-const validationFactory = require('./classes/utils/validation_util')
+// DB requirements
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+
+// utils requirements
+const shortid = require('shortid')
+const crypt = require('bcrypt')
+
 const data_utils = require('./classes/utils/data_utils')
 const DataUtils = new data_utils(shortid, db)
+
+// routes setup
+const newBoard = require('./classes/routes/boards/new')
+const getBoards = require('./classes/routes/boards/get')
+const deleteBoard = require('./classes/routes/boards/delete')
+const getAchievements = require('./classes/routes/achievements/get')
+const newAchievement = require('./classes/routes/achievements/new')
 
 //middleware setup
 app.use(cors())
@@ -26,25 +36,6 @@ app.use(express.json())
 
 db.defaults({ users: [], boards: [] })
 	.write()
-
-const validateToken = async (req, res) => {
-	const token = req.headers['x-access-token']
-	var errorCode = 200
-	var status = true
-
-	if (!token) {
-		errorCode = 403
-		status = false
-	}
-
-	jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => { //decoded contains {username}
-		if (err) {
-			errorCode = 403
-			status = false
-		}
-	})
-	return validationFactory(status, errorCode)
-}
 
 //registrate new user
 app.post('/users', async (req, res) => {
@@ -90,60 +81,19 @@ app.post('/users/:username', async (req, res) => {
 })
 
 //add new achievements
-app.post('/achievements', async (req, res) => {
-	let result = await validateToken(req, res)
-
-	if (result.status) {
-		const { title, data } = req.body.achievement
-		const { boardId } = req.body
-		result.achievements = DataUtils.newAchievement(boardId, title, data)
-	}
-	//TODO handle exception
-	res.send(result)
-})
+newAchievement(app, DataUtils)
 
 //add new board to the user
-app.post('/boards', async (req, res) => {
-	let result = await validateToken(req, res)
-
-	if (result.status) {
-		const { username, name } = req.body
-		const newBoardResult = DataUtils.newBoard(username, name)
-		result.board = newBoardResult
-	}
-	//TODO handle exception, again
-	res.send(result)
-})
+newBoard(app, DataUtils)
 
 //get all user boards
-app.post('/boards/:username', async (req, res) => {
-	let result = await validateToken(req, res)
-	if (result.status) {
-		const { username } = req.params
-		result.board = DataUtils.getAllBoards(username)
-	}
-	res.send(result)
-})
+getBoards(app, DataUtils)
 
-//get board data
-app.get('/boards/:username/:boardid', async (req, res) => {
-	let result = await validateToken(req, res)
-	if (result.status) {
-		const { boardid } = req.params
-		result.achievements = DataUtils.getAllAchievementFromBoard(boardid)
-	}
-	res.send(result)
-})
+//get board's achievements
+getAchievements(app, DataUtils)
 
 //delete the specified board
-app.delete('/boards/:username/:boardid', async (req, res) => {
-	let result = await validateToken(req, res)
-	if (result.status) {
-		const { username, boardid } = req.params
-		result.board = DataUtils.deleteBoard(username, boardid)
-	}
-	res.send(result)
-})
+deleteBoard(app, DataUtils)
 
 const port = process.env.PORT
 app.listen(port, () => { console.log(`Life achievement server listening on port ${port}!`) })
