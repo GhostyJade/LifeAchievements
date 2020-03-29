@@ -12,7 +12,7 @@ import BoardVisualizer from './BoardVisualizer'
 
 const useStyles = makeStyles(theme => ({
     fabNew: {
-        position: "absolute",
+        position: "fixed",
         bottom: theme.spacing(2),
         right: theme.spacing(2)
     }
