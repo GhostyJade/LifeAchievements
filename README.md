@@ -8,7 +8,7 @@ Life achievement is a simple but powerful application that allow users to keep t
 
     The backend is available into _Project/backend/_
 
-    Before running it you must create a file called ".env" which contains a secret key (there's a .env.example that provides you a simple way to start. Rename it and put a good key)
+    Before running it you must create a file called ".env" which contains a secret key and the port number (there's a .env.example that provides you a simple way to start. Rename it and put a good key and a port number like "8080")
     Then, simply run
     ```npm run dev```
  - **Run frontend**:

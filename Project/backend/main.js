@@ -18,8 +18,6 @@ const validationFactory = require('./classes/utils/validation_util')
 const data_utils = require('./classes/utils/data_utils')
 const DataUtils = new data_utils(shortid, db)
 
-const port = 8080
-
 //middleware setup
 app.use(cors())
 app.use(helmet())
@@ -147,4 +145,5 @@ app.delete('/boards/:username/:boardid', async (req, res) => {
 	res.send(result)
 })
 
+const port = process.env.PORT
 app.listen(port, () => { console.log(`Life achievement server listening on port ${port}!`) })
