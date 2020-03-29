@@ -36,3 +36,6 @@ The backend is made using [express](https://expressjs.com/), [bcryptjs](https://
 #### Frontend
 The frontend is made using [react](https://reactjs.org/), [react-router](https://github.com/ReactTraining/react-router) and [MaterialUI](https://material-ui.com/), [FortAwesome](https://fortawesome.com/) and [Bulma](https://bulma.io)+[node-sass](https://github.com/sass/node-sass) to compile sass/scss files. To validate data on client side, password-validator and email-validator are used.
 In the future the application will be localized using [i18next](https://www.i18next.com/)
+
+In the future, the frontend will look like this:
+![](https://github.com/GhostyJade/LifeAchievements/blob/master/Resources/basic-idea.png)
