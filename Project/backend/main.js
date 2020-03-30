@@ -18,15 +18,12 @@ const db = low(adapter)
 const shortid = require('shortid')
 const crypt = require('bcrypt')
 
-const data_utils = require('./classes/utils/data_utils')
+const data_utils = require('./utils/data_utils')
 const DataUtils = new data_utils(shortid, db)
 
 // routes setup
-const newBoard = require('./classes/routes/boards/new')
-const getBoards = require('./classes/routes/boards/get')
-const deleteBoard = require('./classes/routes/boards/delete')
-const getAchievements = require('./classes/routes/achievements/get')
-const newAchievement = require('./classes/routes/achievements/new')
+const Achievements = require('./routes/achievements/index')
+const Boards = require('./routes/boards/index')
 
 //middleware setup
 app.use(cors())
@@ -81,19 +78,19 @@ app.post('/users/:username', async (req, res) => {
 })
 
 //add new achievements
-newAchievement(app, DataUtils)
+Achievements.New(app, DataUtils)
 
 //add new board to the user
-newBoard(app, DataUtils)
+Boards.New(app, DataUtils)
 
 //get all user boards
-getBoards(app, DataUtils)
+Boards.Get(app, DataUtils)
 
 //get board's achievements
-getAchievements(app, DataUtils)
+Achievements.Get(app, DataUtils)
 
 //delete the specified board
-deleteBoard(app, DataUtils)
+Boards.Delete(app, DataUtils)
 
 const port = process.env.PORT
 app.listen(port, () => { console.log(`Life achievement server listening on port ${port}!`) })
