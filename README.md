@@ -1,5 +1,7 @@
 ![](https://github.com/GhostyJade/LifeAchievements/blob/master/Resources/logo/github-placeholder.png)
 
+[Also available in italian](README.it.md)
+
 ## Life Achievements
 Life achievement is a simple-but-powerful application that allows users to keep track of what they want to achieve.
 
