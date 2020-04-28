@@ -39,3 +39,6 @@ In the future the application will be localized using [i18next](https://www.i18n
 
 In the future, the frontend will look like this:
 ![](https://github.com/GhostyJade/LifeAchievements/blob/master/Resources/basic-idea.png)
+
+#### Android App
+I'm building the Android Client for this app, the repository is public and is available [here](https://github.com/GhostyJade/LifeAchievementsAndroid)
