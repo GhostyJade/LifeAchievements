@@ -3,7 +3,7 @@
 [Disponibile anche in inglese](README.md)
 
 ## Life Achievements
-Life achievement è un'applicazione semplice ma potente che consente all'utente di tener traccia degli obbiettivi che vuol raggiongere.
+Life achievement è un'applicazione semplice ma potente che consente all'utente di tener traccia degli obbiettivi che vuol raggiungere.
 
 ### Guida utente:
  - **Esegui il backend**:
