@@ -25,6 +25,8 @@ const DataUtils = new data_utils(shortid, db)
 const Achievements = require('./routes/achievements/index')
 const Boards = require('./routes/boards/index')
 
+const jwt = require('jsonwebtoken')
+
 //middleware setup
 app.use(cors())
 app.use(helmet())

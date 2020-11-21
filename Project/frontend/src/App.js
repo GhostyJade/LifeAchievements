@@ -6,8 +6,6 @@ import Login from './pages/Login'
 import About from './pages/About'
 import Dashboard from './pages/viewer/Dashboard'
 
-import "./style.scss"
-
 import {
     BrowserRouter as Router,
     Switch,
